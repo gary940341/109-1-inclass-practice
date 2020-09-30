@@ -1,0 +1,61 @@
+---
+title: "課堂練習模版"
+author: "gary"
+date: "2020-09-30"
+output: html_document
+params:
+  id: "410678019"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+用指令安裝套件
+```{r}
+library(googlesheets4)
+library(rmarkdown)
+library(knitr)
+a <- 2
+a = 2
+b <- 3
+4
+.Last.value
+my_108_total_credits <- 15
+#_108_total_credits <- 15
+#108_total_credits <- 15
+#_my_108_total_credits <- 15
+my.108.total_credits <- 15
+#.108.total_credits <- 15 
+.my.108.total_credits <- 15
+我的108學年總學分數 <- 15
+`我的108學年總學分數` <- 15 # 特殊名稱處理，`不是名稱的一部份
+`.108.total_credits` <- 15
+```
+<!-- 輸出程式碼
+purl("2020-09-30.Rmd") -->
+
+```{r}
+my_total_credits <- 15
+myTotalCredits <- 15
+a <- 15
+b <- a
+# c <- y
+ls()
+a <- 6
+a+b
+```
+
+```{r}
+num1 <- 5
+vNum1 <- c(2,5)
+vNum2 <- c(2, num1)
+```
+
+
+
+
+
+
+

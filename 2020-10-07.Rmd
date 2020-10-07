@@ -1,0 +1,123 @@
+---
+title: "課堂練習模版"
+author: "gary"
+date: "2020-10-07"
+output: html_document
+params:
+  id: "410678019"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+a <- 15
+b <- a
+y <- 22
+c <- y
+ls()
+find("y")
+```
+
+
+```{r}
+my.name <- "Mary" 
+length(my.name)
+num1 <- 5
+vNum1 <- c(2,5)
+vNum2 <- c(2, num1)
+vNum1 <- c(-1,5)
+vNum2 <- c(2,3)
+vNum3 <- c(vNum1,vNum2)
+vNum4 <- c(-1,5,2,3)
+vNum5 <- c(c(-1,5),c(2,3))
+```
+
+```{r}
+vNum1 <- vNum2
+vNum2 <- c(2, vNum1)
+```
+
+```{r}
+height.of.the.entire.classroom <- c()
+height.of.the.entire.classroom2 <- c()
+height.of.a.student.coming.onside.the.classroom <- sample(165:200, 1)
+height.of.the.entire.classroom <- c(height.of.the.entire.classroom,
+  height.of.a.student.coming.onside.the.classroom)
+```
+
+```{r}
+height.of.the.entire.classroom2 <- height.of.a.student.coming.onside.the.classroom
+```
+
+```{r}
+# c(5, "Mary")
+c(5,7)
+c("John", "Mary")
+c(T, TRUE, F, FALSE)
+```
+
+```{r}
+num1<-5 # 非整數
+num2<-5L # 整數
+
+num1Vector<-c(5,6,7)
+num2Vector<-c(5L,6L,7L)
+```
+
+```{r}
+object.size(num1)
+object.size(num2)
+object.size(num1Vector)
+object.size(num2Vector)
+typeof(num1)
+typeof(num2)
+```
+
+```{r}
+char1<-"你好"
+char2<-'你好'
+char1Vector<-c("你好","How are you?")
+typeof(char1Vector)
+class(char1Vector)
+```
+
+```{r}
+dialogue <- c('小明說："明天不用上課。"',
+               '小花說："真的嗎？"')
+
+dialogue # 顯示原始值的內容（含輸入時的引號）
+cat(dialogue, sep="\n") # 顯示給人類看（含存出來）的值，sep="\n", 不同元素換行陳列。
+writeLines(dialogue, "conversation.txt") # cat顯示的正是存出來樣貌。
+```
+
+```{r}
+context <- "...." # 請依下列情境輸入
+cat(context)
+cat(dialogue, sep="\n")
+cat(
+  dialogue, sep="\n"
+)
+cat(
+  dialogue,
+  sep="\n"
+)
+```
+
+```{r}
+context <- "老師說換行要寫\n" # 請依下列情境輸入
+cat(context)
+```
+
+```{r}
+"Today is a nice day."  #1
+"Today is 
+a nice day." #2
+```
+
+
+
+

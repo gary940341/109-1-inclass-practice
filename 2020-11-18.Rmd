@@ -1,0 +1,33 @@
+---
+title: "課堂練習模版"
+author: "gary"
+date: "2020-11-18"
+output: html_document
+params:
+  id: "410678019"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+library(purrr)
+pick_小新 <- example$name == "小新"
+data_selected <- list(name = example$name[pick_小新], weight = example$weight[pick_小新], 
+    height = example$height[pick_小新], hobby = example$hobby[pick_小新], residence = example$residence[pick_小新], 
+    allowance = example$allowance[pick_小新], bloodType = example$bloodType[pick_小新])
+```
+
+```{r}
+example[[1]][pick_小新]
+example[[2]][pick_小新]
+example[[3]][pick_小新]
+example[[4]][pick_小新]
+example[[5]][pick_小新]
+example[[6]][pick_小新]
+example[[7]][pick_小新]
+```
+

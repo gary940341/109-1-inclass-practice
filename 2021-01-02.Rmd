@@ -1,0 +1,539 @@
+---
+title: "課堂練習模版"
+author: "gary"
+date: "2021-01-02"
+output: html_document
+params:
+  id: "410678019"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+sortedEmails <- list(
+  office=character(),
+  student=character(),
+  private=character()
+)
+
+set.seed(2839)
+emailFrom <- sample(
+  c("econ@gm.ntpu.edu.tw","classStudents@gm.ntpu.edu.tw","xxx@gmail.com","econStaff@gm.ntpu.edu.tw","yyyy@gmail.com"), 50,
+  replace=T
+)
+head(emailFrom, 10)
+
+.x<- 3
+commingEmail <- emailFrom[[.x]]
+```
+
+```{r}
+# Office
+{
+  message("You have a message from office.")
+  nOffice <- length(sortedEmails$office)
+  sortedEmails$office[[nOffice+1]] <- commingEmail
+  sortedEmails
+}
+# Student
+{
+  message("There is an email from student in your class.")
+  nStudent <- length(sortedEmails$student)
+  sortedEmails$student[[nStudent+1]] <- commingEmail
+  sortedEmails
+}
+# Private
+{
+  message("A private message has come in.")
+  nPrivate <- length(sortedEmails$private)
+  sortedEmails$private[[nPrivate+1]] <- commingEmail
+  sortedEmails
+}
+```
+
+### important
+```{r}
+library(stringr)
+condition_sgn <- 
+  ifelse(
+    str_detect(commingEmail,"econ"), "office", commingEmail)
+
+switch(
+  condition_sgn,
+  "office"={
+    message("You have a message from office.")
+    nOffice <- length(sortedEmails$office)
+    sortedEmails$office[[nOffice+1]] <- commingEmail
+    sortedEmails
+  },
+  "classStudents@gm.ntpu.edu.tw"={
+    message("There is an email from student in your class.")
+    nStudent <- length(sortedEmails$student)
+    sortedEmails$student[[nStudent+1]] <- commingEmail
+    sortedEmails
+  },
+  {
+    message("A private message has come in.")
+    nPrivate <- length(sortedEmails$private)
+    sortedEmails$private[[nPrivate+1]] <- commingEmail
+    sortedEmails
+  }
+)
+```
+
+
+```{r}
+sampleData <- list(
+  list("男", 45), list("女", 32), list("男",50), list("男",33), list("女", 21)
+)
+
+sampleData[[1]][[1]]
+sampleData[[2]][[1]]
+sampleData[[3]][[1]]
+sampleData[[4]][[1]]
+sampleData[[5]][[1]]
+
+{ sampleData[[1]][[1]] }
+{ sampleData[[2]][[1]] }
+{ sampleData[[3]][[1]] }
+{ sampleData[[4]][[1]] }
+{ sampleData[[5]][[1]] }
+```
+
+```{r}
+sampleData[[1]][[1]]
+sampleData[[2]][[1]]
+sampleData[[3]][[1]]
+sampleData[[4]][[1]]
+sampleData[[5]][[1]]
+
+{ sampleData[[.x]][[1]] }
+
+{ .x[[1]] }
+
+{ .x }
+```
+
+```{r}
+sampleData[[1]][[1]]
+sampleData[[2]][[1]]
+sampleData[[3]][[1]]
+sampleData[[4]][[1]]
+sampleData[[5]][[1]]
+
+for(.x in c(1,2,3,4,5))
+{
+  sampleData[[.x]][[1]]
+}
+
+# ok
+for(.x in sampleData)
+{
+  .x[[1]]
+}
+
+for(.x in 
+    list(sampleData[[1]][[1]], sampleData[[2]][[1]], sampleData[[3]][[1]], 
+         sampleData[[4]][[1]], sampleData[[5]][[1]]) )
+{.x}
+```
+
+```{r}
+set.seed(2851)
+exams <- sample(c(30:100, NA), 50, replace = T, prob = c(rep(0.8/71,71), 0.2))
+homeworks <- sample(c(50:100, NA), 50, replace = T, prob = c(rep(0.9/51,51), 0.1))
+grades <-
+  list(
+    exam=exams,
+    homework=homeworks
+  )
+
+results <- 
+  list(
+    semesterGrade=vector("numeric", length(grades$exam)),
+    letterGrade=vector("character", length(grades$exam)),
+    emailContent=vector("character", length(grades$exam))
+  )
+
+# 1st student
+examX <- grades$exam[[1]]
+homeworksX <- grades$homework[[1]]
+## 學期總成績（作業40%，考試60%)
+semesterGrade <- {
+  
+}
+## 算出英文成績
+letterGrade <- {
+  
+}
+## 學期成績通知信內容
+emailContent <- {
+  
+}
+
+examX <- grades$exam[[1]]
+homeworksX <- grades$homework[[1]]
+## 學期總成績（作業40%，考試60%)
+semesterGrade <- {
+  examX <- ifelse(is.na(examX), 0, examX)
+  homeworksX <- ifelse(is.na(homeworksX), 0, homeworksX)
+  0.4*homeworksX + 0.6*examX
+}
+## 算出英文成績
+letterGrade <- {
+  cut(semesterGrade,
+      breaks=c(-Inf, # F
+               60, # C
+               70, # B
+               80, Inf), # A
+      right = F) -> cut_semesterGrade
+  levels(cut_semesterGrade) <- c("F","C","B","A")
+  as.character(cut_semesterGrade)
+}
+
+# important
+## 學期成績通知信內容
+emailContent <- {
+  glue::glue("親愛的同學：\n\n本學期你的考試成績為{examX}，作業成績為{homeworksX}，經換算學期成績為{semesterGrade}（為{letterGrade}等）。\n\n祝學習愉快")
+}
+
+## 存起來
+results$semesterGrade[[1]] <- semesterGrade
+results$letterGrade[[1]] <- letterGrade
+results$emailContent[[1]] <- emailContent
+```
+
+```{r}
+examX <- grades$exam[[2]]
+homeworksX <- grades$homework[[2]]
+## 學期總成績（作業40%，考試60%)
+semesterGrade <- {
+  examX <- ifelse(is.na(examX), 0, examX)
+  homeworksX <- ifelse(is.na(homeworksX), 0, homeworksX)
+  0.4*homeworksX + 0.6*examX
+}
+## 算出英文成績
+letterGrade <- {
+  cut(semesterGrade,
+      breaks=c(-Inf, # F
+               60, # C
+               70, # B
+               80, Inf), # A
+      right = F) -> cut_semesterGrade
+  levels(cut_semesterGrade) <- c("F","C","B","A")
+  as.character(cut_semesterGrade)
+}
+## 學期成績通知信內容
+emailContent <- {
+  glue::glue("親愛的同學：\n\n本學期你的考試成績為{examX}，作業成績為{homeworksX}，經換算學期成績為{semesterGrade}（為{letterGrade}等）。\n\n祝學習愉快")
+}
+
+## 存起來
+results$semesterGrade[[2]] <- semesterGrade
+results$letterGrade[[2]] <- letterGrade
+results$emailContent[[2]] <- emailContent
+```
+
+```{r}
+for(.x in 1:50)
+{
+  examX <- grades$exam[[.x]]
+  homeworksX <- grades$homework[[.x]]
+  ## 學期總成績（作業40%，考試60%)
+  semesterGrade <- {
+    examX <- ifelse(is.na(examX), 0, examX)
+    homeworksX <- ifelse(is.na(homeworksX), 0, homeworksX)
+    0.4 * homeworksX + 0.6 * examX
+  }
+  ## 算出英文成績
+  letterGrade <- {
+    cut(semesterGrade,
+      breaks = c(
+        -Inf, # F
+        60, # C
+        70, # B
+        80, Inf
+      ), # A
+      right = F
+    ) -> cut_semesterGrade
+    levels(cut_semesterGrade) <- c("F", "C", "B", "A")
+    as.character(cut_semesterGrade)
+  }
+  ## 學期成績通知信內容
+  emailContent <- {
+    glue::glue("親愛的同學：\n\n本學期你的考試成績為{examX}，作業成績為{homeworksX}，經換算學期成績為{semesterGrade}（為{letterGrade}等）。\n\n祝學習愉快")
+  }
+
+  ## 存起來
+  results$semesterGrade[[.x]] <- semesterGrade
+  results$letterGrade[[.x]] <- letterGrade
+  results$emailContent[[.x]] <- emailContent
+}
+```
+
+```{r}
+results <- 
+  list(
+    semesterGrade=vector("numeric", length(grades$exam)),
+    letterGrade=vector("character", length(grades$exam)),
+    emailContent=vector("character", length(grades$exam))
+  )
+
+for(.x in 1:50)
+{
+  examX <- grades$exam[[.x]]
+  homeworksX <- grades$homework[[.x]]
+  ## 學期總成績（作業40%，考試60%)
+  semesterGrade <- {
+    examX <- ifelse(is.na(examX), 0, examX)
+    homeworksX <- ifelse(is.na(homeworksX), 0, homeworksX)
+    0.4 * homeworksX + 0.6 * examX
+  }
+  ## 算出英文成績
+  letterGrade <- {
+    cut(semesterGrade,
+      breaks = c(
+        -Inf, # F
+        60, # C
+        70, # B
+        80, Inf
+      ), # A
+      right = F
+    ) -> cut_semesterGrade
+    levels(cut_semesterGrade) <- c("F", "C", "B", "A")
+    as.character(cut_semesterGrade)
+  }
+  ## 學期成績通知信內容
+  emailContent <- {
+    glue::glue("親愛的同學：\n\n本學期你的考試成績為{examX}，作業成績為{homeworksX}，經換算學期成績為{semesterGrade}（為{letterGrade}等）。\n\n祝學習愉快")
+  }
+
+  ## 存起來
+  results$semesterGrade[[.x]] <- semesterGrade
+  results$letterGrade[[.x]] <- letterGrade
+  results$emailContent[[.x]] <- emailContent
+}
+```
+
+
+```{r}
+# iterates: 1,2,3,4,5
+# iteration block
+{
+  sampleData[[.x]]
+}
+
+.x <- .x + 1 # if .x exists in your environment
+
+while(flag)
+  
+flag <- (.x < 5) # continuation flag condition with definite iterates
+
+while(flag)
+{
+  .x <- .x+1 # Iterate generation
+  sampleData[[.x]][[1]]
+  flag <- (.x < 5) # Continuation flag
+}
+
+rm(list=ls())
+sampleData <- list(
+  list("男", 45), list("女", 32), list("男",50), list("男",33), list("女", 21)
+)
+
+.x <- 0 # initial iterate
+flag <- TRUE # initial flag
+while(flag)
+{
+  .x <- .x+ 1 # Iterate generation
+  print(sampleData[[.x]][[1]])
+  flag <- (.x < 5) # continuation flag
+}
+```
+
+```{r}
+.x <- 0 # initial iterate
+flag <- TRUE # initial flag
+cat('Iterate .x starts at 0, and continue to\n')
+while(flag && .x <= 100) # throw in maximal iterate restriction
+{
+  .x <- .x+ 1 # Iterate generation
+  print(sampleData[[.x]][[1]])
+  flag <- (.x < 5) # continuation flag 
+  cat('.x = ', .x, ' complete\n')
+}
+```
+
+
+```{r}
+# computer pick a number
+.computerPick <- {
+  
+}
+
+# iteration time
+.x <- 1
+
+# user guess
+userGuess <- readline("What's your guess?")
+
+# conditional execution of 3 blocks
+{
+  "Higher"
+}
+{
+  "Lower"
+}
+{
+  glue::glue("BINGO!!! You guess it right after {.x} trials")
+}
+
+# computer pick a number
+.computerPick <- {
+  sample(10:50, 1)
+}
+
+# iteration time
+.x <- 1
+
+# user guess
+userGuess <- readline("What's your guess?")
+
+# conditional execution of 3 blocks
+result <- 
+  if(as.integer(userGuess) < .computerPick)
+  {
+    "Higher"
+  } else 
+  if(as.integer(userGuess) > .computerPick)
+  {
+    "Lower"
+  } else
+  {
+    glue::glue("BINGO!!! You guess it right after {.x} trials")
+  }
+
+message(result)
+
+# computer pick a number
+.computerPick <- {
+  sample(10:50, 1)
+}
+
+
+# iteration block
+{
+  # iteration generation
+  # # iteration time
+  # .x <- 1
+
+  # user guess
+  userGuess <- readline("What's your guess?")
+
+  # conditional execution of 3 blocks
+  result <-
+    if (as.integer(userGuess) < .computerPick) {
+      "Higher"
+    } else
+    if (as.integer(userGuess) > .computerPick) {
+      "Lower"
+    } else {
+      glue::glue("BINGO!!! You guess it right after {.x} trials")
+    }
+
+  message(result)
+  
+  # continuation flag
+  
+}
+
+# computer pick a number
+.computerPick <- {
+  sample(10:50, 1)
+}
+
+# iteration time
+.x <- 0
+flag <- T
+while(flag)
+# iteration block
+{
+  # iteration generation
+  .x <- .x + 1
+  
+  # user guess
+  userGuess <- readline("What's your guess?")
+
+  # conditional execution of 3 blocks
+  result <-
+    if (as.integer(userGuess) < .computerPick) {
+      "Higher"
+    } else
+    if (as.integer(userGuess) > .computerPick) {
+      "Lower"
+    } else {
+      glue::glue("BINGO!!! You guess it right after {.x} trials")
+    }
+
+  message(result)
+  
+  # continuation flag
+  flag <- ! stringr::str_detect(result, "BINGO")
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

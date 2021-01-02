@@ -1,0 +1,266 @@
+---
+title: "課堂練習模版"
+author: "gary"
+date: "2020-12-23"
+output: html_document
+params:
+  id: "410678019"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+ 
+```{r}
+# Given some information
+R <- 0.09
+M <- 10000
+T <- 3
+# What I need to do
+PDV <- 
+{
+  M/(1+R)**T
+}
+
+getPDV <- function(R,M,T) 
+{
+  M/(1+R)**T
+}
+
+getPDV(R=0.09, T=3, M=10000)
+```
+
+### Execution Environment
+```{r}
+debug(getPDV) 
+getPDV(R=0.09, T=3, M=10000) 
+undebug(getPDV)
+```
+
+```{r}
+# 查詢函數formals arguments要求
+formals(getPDV)
+# 查詢函數主體
+body(getPDV)
+# body執行時若有物件不存在execution environment時要去找尋的environment
+environment(getPDV)
+```
+
+### Function Environment
+```{r}
+# Given some information
+TT <- 3
+# What I need to do
+getPDV2 <- function(R,M){
+  M/(1+R)**TT
+}
+
+getPDV2(R=0.12, M=50000)
+debug(getPDV2)
+getPDV2(R=0.12, M=50000)
+undebug(getPDV2)
+
+TT <- 3
+getPDV2(R=0.12, M=50000)
+
+TT <- 1
+getPDV2(R=0.12, M=50000)
+```
+
+### important
+```{r}
+# 最後一個執行列的運算值（值不能儲存在任何物件）
+testFun <- function(){
+  a <-2
+  b <- 5
+  a+b
+}
+testFun()
+
+testErrorFun <- function(){
+  a <-2
+  b <- 5
+  output <- a+b
+}
+testErrorFun()
+
+# 執行列出現return()時，()內的值會回傳
+testFun <- function(){
+  a <-2
+  b <- 5
+  return(a+b)
+}
+testFun()
+
+# 執行列出現invisible()時，()內的值只在函數呼叫同時有指定物件儲存時才會回傳
+testFun <- function(){
+  a <-2
+  b <- 5
+  invisible(a+b)
+}
+testFun()
+output <- testFun()
+output
+```
+
+
+```{r}
+demandFun <- function(P) 5-3*P
+supplyFun <- function(P) 1+0.5*P
+market <- list(
+  demand=demandFun,
+  supply=supplyFun
+)
+market$demand(1)
+
+# Function can be used as an function argument
+df0 <- function(f){
+  epsilon <- 0.00001
+  (f(epsilon)-f(0))/epsilon
+}
+
+df0(market$demand)
+df0(market$supply)
+```
+
+
+```{r}
+library(lubridate); library(dplyr); library(stringr); library(purrr)
+jsonlite::fromJSON(
+"https://www.dropbox.com/s/8sftw4bbjumeqph/signMapping.json?dl=1") -> horoscopes
+
+# Block programming in details (pseudo-codes)
+userBirthday <- ymd("1998-10-30")
+userHoroscopes <- 
+  {
+    # 取得生日年份
+    birthYear <- {
+      
+    }
+    
+    # 取得生日年份的12星座起始日期
+    horoscopeStartingDateInBirthYear <- {
+      
+    }
+    
+    # 切割生日成為12星座區間
+    cutBirthdayByStartingDate <- {
+      
+    }
+    
+    # 改變星座區間類別名稱
+    birthdayCutRenameLevels <- {
+      
+    }
+    levels(cutBirthdayByStartingDate) <- birthdayCutRenameLevels
+    
+    as.character(cutBirthYearByStartingDate)
+  }
+```
+
+
+```{r}
+userBirthday <- ymd("1998-10-30")
+
+get_userHoroscopes <- function(userBirthday)
+  {
+    # 取得生日年份
+    birthYear <- {
+      year(userBirthday)
+    }
+    
+    # 取得生日年份的12星座起始日期
+    horoscopeStartingDateInBirthYear <- {
+      str_startingDate <- 
+        paste0(birthYear,"-",horoscopes$sdate)
+      ymd(str_startingDate)
+    }
+    
+    # 切割生日成為12星座區間
+    # important
+    cutBirthdayByStartingDate <- {
+      cut(userBirthday,
+          breaks =
+            c(
+              ymd(
+                paste0(birthYear, "-01-01")
+              ),
+              horoscopeStartingDateInBirthYear,
+              ymd(
+                paste0(birthYear, "-12-31")
+              )
+            )
+          )
+    }
+    
+    # 改變星座區間類別名稱
+    birthdayCutRenameLevels <- {
+      c("摩羯座", horoscopes$sign)
+    }
+    levels(cutBirthdayByStartingDate) <- birthdayCutRenameLevels
+    
+    as.character(cutBirthdayByStartingDate)
+  }
+```
+
+
+```{r}
+get_userHoroscopes(ymd("1995-08-27"))
+get_userHoroscopes(ymd("1970-05-18"))
+get_userHoroscopes(ymd("2001-4-1"))
+```
+
+```{r}
+get_userHoroscopes2 <- function(userBirthday){
+  assertthat::assert_that(is.Date(userBirthday),
+                          msg="userBirthday should be a Date class object.")
+  get_userHoroscopes(userBirthday)
+}
+
+get_userHoroscopes2("2010-01-22")
+get_userHoroscopes2(ymd("2020-01-22"))
+```
+
+
+```{r}
+df0 <- function(f, epsilon=0.00001){
+  (f(epsilon)-f(0))/epsilon
+}
+
+myFun <- function(x){
+  5*x^2-2*x+7
+}
+
+df0(myFun)
+
+df0(myFun, epsilon = 1e-08)
+df0(myFun, epsilon = 1e-10)
+```
+
+```{r}
+df0reverse <- function(epsilon=0.00001, f){
+  (f(epsilon)-f(0))/epsilon
+}
+
+df0(myFun)
+
+# Error
+df0reverse(myFun)
+
+# putting default at the front, force default users to put down the argument name f in every use. 
+df0reverse(f=myFun)
+```
+
+```{r}
+download.file(
+  "https://www.dropbox.com/s/zim84gg2g23g0pc/horoscopes.R?dl=1", 
+  destfile="./horoscopes.R", mode="w"
+)
+
+source("./horoscopes.R")
+```
+
+
+
